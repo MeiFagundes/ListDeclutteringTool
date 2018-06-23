@@ -1,0 +1,161 @@
+﻿using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace LDT {
+	/// <summary>
+	/// Interaction logic for MainWindow.xaml
+	/// </summary>
+	public partial class MainWindow : Window {
+
+		// VAR
+		List<String> output = new List<string>();
+
+		public MainWindow() {
+			InitializeComponent();
+
+			// Executing example
+			InputTextBox.Text = "Example1 123 DeleteMe Example2 DeleteMe 321 DeleteMe Example3";
+			StringForRemoval.Text = "DeleteMe";
+			Declutter(null, null);
+		}
+
+		/// <summary>
+		/// Declutters String from InputTextBox and saves result to OutputTextBox
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Declutter(object sender, RoutedEventArgs e) {
+
+			// VAR
+			String[] input;
+			String stringForRemoval = StringForRemoval.Text;
+
+			// Clearing List.output
+			output.Clear();
+
+			// Executing input.Split()
+			switch (ObjSeparation.SelectedIndex) {
+				case 0: // Separate by Spaces ' '
+
+					if (SeparateBtLines.IsChecked.Value) {
+						input = InputTextBox.Text.Split(' ', '\n', '\r', (char)0x2028, (char)0x2029);
+					}
+					else {
+						input = InputTextBox.Text.Split(' ');
+					}
+					break;
+
+				case 1: // Separate by Tabs '\t'
+
+					if (SeparateBtLines.IsChecked.Value) {
+						input = InputTextBox.Text.Split('\t', '\n', '\r', (char)0x2028, (char)0x2029);
+					}
+					else {
+						input = InputTextBox.Text.Split('\t');
+					}
+					break;
+
+				case 2: // Separate by Dots '.'
+
+					if (SeparateBtLines.IsChecked.Value) {
+						input = InputTextBox.Text.Split('.', '\n', '\r', (char)0x2028, (char)0x2029);
+					}
+					else {
+						input = InputTextBox.Text.Split('.');
+					}
+					break;
+
+				default:
+					input = InputTextBox.Text.Split('\n', '\r', (char)0x2028, (char)0x2029);
+					break;
+			}
+
+			// Storing Switch results into List.output
+			foreach (String currentInput in input) {
+				if (!(RemoveNumbers.IsChecked.Value && int.TryParse(currentInput, out int n))) {
+					output.Add(currentInput);
+				}
+			}
+
+			// Removing all occurrences of stringForRemoval from List.Output
+			for (int i = 0; i < output.Count; i++) {
+				output[i] = output[i].Replace(stringForRemoval, String.Empty);
+			}
+
+			// Removing Empty array elements from List.output and Clearing previous OutputTextBox
+			output.RemoveAll(String.IsNullOrEmpty);
+			OutputTextBox.Clear();
+
+			// Displaying results in OutputTextBox
+			foreach (String currentOutput in output) {
+				OutputTextBox.AppendText(currentOutput + "\n");
+			}
+		}
+
+		/// <summary>
+		/// Saves List.output as a Text file
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void SaveTextFile_Click(object sender, RoutedEventArgs e) {
+
+			// Opening new SaveFileDialog
+			SaveFileDialog saveFileDialog = new SaveFileDialog();
+			saveFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+			saveFileDialog.Title = "Save your Output:";
+			saveFileDialog.ShowDialog();
+			
+			if (saveFileDialog.FileName != "") { // Checking for empty names
+				System.IO.FileStream fileStream = (System.IO.FileStream)saveFileDialog.OpenFile();
+				TextWriter textWriter = new StreamWriter(fileStream);
+
+				foreach (String current in output) {
+					textWriter.WriteLine(current);
+				}
+
+				// Closing
+				textWriter.Close();
+				fileStream.Close();
+			}
+		}
+
+		/// <summary>
+		/// InputTextBox receives String[] from Text file
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void OpenTextFile_Click(object sender, RoutedEventArgs e) {
+
+			OpenFileDialog openFileDialog = new OpenFileDialog();
+			openFileDialog.Filter = "txt files (*.txt)|*.txt";
+			openFileDialog.Title = "Open Text file for conversion:";
+			openFileDialog.ShowDialog();
+			
+			if (openFileDialog.FileName != "") { // Checking for empty names
+				System.IO.FileStream fileStream = (System.IO.FileStream)openFileDialog.OpenFile();
+
+				TextReader textReader = new StreamReader(fileStream);
+				InputTextBox.Clear();
+				InputTextBox.AppendText(textReader.ReadToEnd());
+
+				// Closing
+				textReader.Close();
+				fileStream.Close();
+			}
+		}
+	}
+}
