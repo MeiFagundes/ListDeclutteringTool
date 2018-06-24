@@ -4,7 +4,7 @@
 
 **List Decluttering Tool** is a free tool that simplify your lists and help you extract useful data from your clipboard pretty fast!
 
-![](Docs/Icon.png)
+![](Design/Icon.png)
 
 **What it can do for you:**
 
@@ -13,4 +13,4 @@
 - Restructures your data in a snap to simplify its use in any algorithm.
 - Ignores non-useful formatting stuff to give you what matters.
 
-![](Docs\print.png)
+![](Design/Print.png)
