@@ -2,18 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace LDT {
 	/// <summary>
@@ -50,33 +39,18 @@ namespace LDT {
 			// Executing input.Split()
 			switch (ObjSeparation.SelectedIndex) {
 				case 0: // Separate by Spaces ' '
-
-					if (SeparateBtLines.IsChecked.Value) {
-						input = InputTextBox.Text.Split(' ', '\n', '\r', (char)0x2028, (char)0x2029);
-					}
-					else {
-						input = InputTextBox.Text.Split(' ');
-					}
+					
+					input = InputTextBox.Text.Split(' ', '\n', '\r', (char)0x2028, (char)0x2029);
 					break;
 
 				case 1: // Separate by Tabs '\t'
-
-					if (SeparateBtLines.IsChecked.Value) {
-						input = InputTextBox.Text.Split('\t', '\n', '\r', (char)0x2028, (char)0x2029);
-					}
-					else {
-						input = InputTextBox.Text.Split('\t');
-					}
+					
+					input = InputTextBox.Text.Split('\t', '\n', '\r', (char)0x2028, (char)0x2029);
 					break;
 
 				case 2: // Separate by Dots '.'
-
-					if (SeparateBtLines.IsChecked.Value) {
-						input = InputTextBox.Text.Split('.', '\n', '\r', (char)0x2028, (char)0x2029);
-					}
-					else {
-						input = InputTextBox.Text.Split('.');
-					}
+					
+					input = InputTextBox.Text.Split('.', '\n', '\r', (char)0x2028, (char)0x2029);
 					break;
 
 				default:
@@ -142,7 +116,7 @@ namespace LDT {
 
 			OpenFileDialog openFileDialog = new OpenFileDialog();
 			openFileDialog.Filter = "txt files (*.txt)|*.txt";
-			openFileDialog.Title = "Open Text file for conversion:";
+			openFileDialog.Title = "Open Text file for decluttering:";
 			openFileDialog.ShowDialog();
 			
 			if (openFileDialog.FileName != "") { // Checking for empty names
@@ -156,6 +130,10 @@ namespace LDT {
 				textReader.Close();
 				fileStream.Close();
 			}
+		}
+
+		private void InputTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) {
+
 		}
 	}
 }

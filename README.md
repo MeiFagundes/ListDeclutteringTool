@@ -2,7 +2,7 @@
 
 
 
-**List Decluttering Tool** is a free tool that simplify your lists and help you extract useful data from your clipboard pretty fast!
+**List Decluttering Tool** is a free tool that simplifies your lists and help you extract useful data from your clipboard pretty fast!
 
 ![](Design/Icon.png)
 

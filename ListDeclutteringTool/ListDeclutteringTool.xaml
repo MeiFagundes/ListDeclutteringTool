@@ -1,0 +1,106 @@
+﻿<Window x:Class="LDT.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LDT"
+        mc:Ignorable="d"
+        Title="List Decluttering Tool" Height="616.5" Width="1027"
+        ResizeMode="CanResize"
+        MinHeight="600" MinWidth="1024">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="296*"/>
+            <ColumnDefinition Width="360*"/>
+            <ColumnDefinition Width="360*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox 
+            x:Name="InputTextBox" 
+            AcceptsReturn="true" 
+            AcceptsTab="true"
+            FontSize="14"
+            VerticalScrollBarVisibility="Auto" 
+            HorizontalScrollBarVisibility="Auto"
+            Margin="5,45,10,15" TextWrapping="Wrap" Text="" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1" TextChanged="InputTextBox_TextChanged"
+            />
+        <TextBox 
+            x:Name="OutputTextBox" 
+            AcceptsReturn="true" 
+            AcceptsTab="true"
+            IsReadOnly="true"
+            FontSize="14"
+            VerticalScrollBarVisibility="Auto" 
+            HorizontalScrollBarVisibility="Auto"
+            HorizontalAlignment="Stretch" 
+            Margin="5,45,15,15" 
+            TextWrapping="Wrap" 
+            Text="" 
+            VerticalAlignment="Stretch" Grid.Column="2" />
+
+        <Label Content="Input Text" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="30" Width="115" Grid.Column="1"/>
+        <Label Content="Output Text" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="30" Width="117" Grid.Column="2"/>
+
+        <Grid HorizontalAlignment="Stretch" Height="145" Margin="15,0,10,15" VerticalAlignment="Bottom">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="7*"/>
+                <RowDefinition Height="5*"/>
+            </Grid.RowDefinitions>
+            <Button 
+            x:Name="ConvertButton"
+            Content="Do it!"
+            FontSize="20"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch" Click="Declutter" Margin="0,0,0,5"
+            RenderTransformOrigin="0.269,0.54" Grid.ColumnSpan="2"/>
+            <Button x:Name="OpenTextFile" Content="Open Text file" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Click="OpenTextFile_Click" FontSize="14" Grid.Row="1" Margin="0,5,5,0"/>
+            <Button x:Name="SaveTextFile" Content="Save as Text file" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="SaveTextFile_Click" FontSize="14" Grid.Row="1" Grid.Column="1" Margin="5,5,0,0"/>
+        </Grid>
+        <Grid Name="Options" HorizontalAlignment="Stretch" Margin="30,10,30,182" VerticalAlignment="Stretch" >
+            <Image Source="Icon.png" Stretch="Uniform" VerticalAlignment="Top" Height="168"/>
+            <Label 
+            Content="Separate items between:"
+            FontSize="16"
+            FontWeight="SemiBold"
+            HorizontalAlignment="Stretch" VerticalAlignment="Top" RenderTransformOrigin="-0.395,0.096" Margin="0,179,0,0"/>
+            <ComboBox 
+            x:Name="ObjSeparation"
+            SelectedIndex="0"
+            FontSize="16"
+            HorizontalAlignment="Stretch"  VerticalAlignment="Top" Margin="0,215,0,0">
+                <ComboBoxItem Content="Spaces" />
+                <ComboBoxItem Content="Tabs"/>
+                <ComboBoxItem Content="Dots"/>
+            </ComboBox>
+            <Label 
+            Content="Remove all occurrences of:"
+            FontSize="16"
+            FontWeight="SemiBold"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            RenderTransformOrigin="-0.395,0.096" Margin="0,254,0,0"/>
+            <TextBox 
+            x:Name="StringForRemoval" 
+            FontSize="16"
+            HorizontalAlignment="Stretch"
+            TextWrapping="Wrap"
+            VerticalAlignment="Top" Height="28" Margin="0,290,0,0"/>
+            <CheckBox 
+            x:Name="RemoveNumbers"
+            FontSize="16"
+            Content="Remove numeric items"
+            IsChecked="True"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top" Margin="0,328,0,0"/>
+            <TextBox HorizontalAlignment="Right" Height="15" Margin="0,164,0,0" TextWrapping="Wrap" Text="Ver 1.0.1" VerticalAlignment="Top" Width="39" FontSize="9" Focusable="False" AllowDrop="False" IsHitTestVisible="False" BorderThickness="0" TextAlignment="Right" Background="Transparent"/>
+        </Grid>
+
+    </Grid>
+</Window>
