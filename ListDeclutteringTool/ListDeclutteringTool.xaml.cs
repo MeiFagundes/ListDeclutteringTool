@@ -11,14 +11,15 @@ namespace LDT {
 	public partial class MainWindow : Window {
 
 		// VAR
-		List<String> output = new List<string>();
+		private List<String> output = new List<String>();
 
 		public MainWindow() {
 			InitializeComponent();
 
 			// Executing example
-			InputTextBox.Text = "Example1 123 DeleteMe Example2 DeleteMe 321 DeleteMe Example3";
-			StringForRemoval.Text = "DeleteMe";
+			InputTextBox.Text = LDT.Properties.Resources.Example;
+			StringForRemoval.Text = "(noun)";
+			ItemSeparationComboBox.SelectedIndex = 1;
 			Declutter(null, null);
 		}
 
@@ -37,20 +38,26 @@ namespace LDT {
 			output.Clear();
 
 			// Executing input.Split()
-			switch (ObjSeparation.SelectedIndex) {
+			switch (ItemSeparationComboBox.SelectedIndex) {
 				case 0: // Separate by Spaces ' '
-					
+
 					input = InputTextBox.Text.Split(' ', '\n', '\r', (char)0x2028, (char)0x2029);
 					break;
 
 				case 1: // Separate by Tabs '\t'
-					
+
 					input = InputTextBox.Text.Split('\t', '\n', '\r', (char)0x2028, (char)0x2029);
 					break;
 
 				case 2: // Separate by Dots '.'
-					
+
 					input = InputTextBox.Text.Split('.', '\n', '\r', (char)0x2028, (char)0x2029);
+					break;
+
+				case 3: // Custom Separation
+
+					String temp = InputTextBox.Text.Replace(CustomSeparationTextBox.Text, Environment.NewLine);
+					input = temp.Split('\n', '\r', (char)0x2028, (char)0x2029);
 					break;
 
 				default:
@@ -67,7 +74,8 @@ namespace LDT {
 
 			// Removing all occurrences of stringForRemoval from List.Output
 			for (int i = 0; i < output.Count; i++) {
-				output[i] = output[i].Replace(stringForRemoval, String.Empty);
+				output[i] = output[i].Replace(stringForRemoval, String.Empty)
+									.Replace(Environment.NewLine, String.Empty);
 			}
 
 			// Removing Empty array elements from List.output and Clearing previous OutputTextBox
@@ -76,7 +84,7 @@ namespace LDT {
 
 			// Displaying results in OutputTextBox
 			foreach (String currentOutput in output) {
-				OutputTextBox.AppendText(currentOutput + "\n");
+				OutputTextBox.AppendText(currentOutput + '\n');
 			}
 		}
 
@@ -88,12 +96,13 @@ namespace LDT {
 		private void SaveTextFile_Click(object sender, RoutedEventArgs e) {
 
 			// Opening new SaveFileDialog
-			SaveFileDialog saveFileDialog = new SaveFileDialog();
-			saveFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-			saveFileDialog.Title = "Save your Output:";
+			SaveFileDialog saveFileDialog = new SaveFileDialog {
+				Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*",
+				Title = "Save your Output:"
+			};
 			saveFileDialog.ShowDialog();
-			
-			if (saveFileDialog.FileName != "") { // Checking for empty names
+
+			if (saveFileDialog.FileName != String.Empty) { // Checking for empty names
 				System.IO.FileStream fileStream = (System.IO.FileStream)saveFileDialog.OpenFile();
 				TextWriter textWriter = new StreamWriter(fileStream);
 
@@ -114,12 +123,13 @@ namespace LDT {
 		/// <param name="e"></param>
 		private void OpenTextFile_Click(object sender, RoutedEventArgs e) {
 
-			OpenFileDialog openFileDialog = new OpenFileDialog();
-			openFileDialog.Filter = "txt files (*.txt)|*.txt";
-			openFileDialog.Title = "Open Text file for decluttering:";
+			OpenFileDialog openFileDialog = new OpenFileDialog {
+				Filter = "txt files (*.txt)|*.txt",
+				Title = "Open Text file for decluttering:"
+			};
 			openFileDialog.ShowDialog();
-			
-			if (openFileDialog.FileName != "") { // Checking for empty names
+
+			if (openFileDialog.FileName != String.Empty) { // Checking for empty names
 				System.IO.FileStream fileStream = (System.IO.FileStream)openFileDialog.OpenFile();
 
 				TextReader textReader = new StreamReader(fileStream);
@@ -134,6 +144,31 @@ namespace LDT {
 
 		private void InputTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) {
 
+		}
+
+		private void ClearButton_Click(object sender, RoutedEventArgs e) {
+			InputTextBox.Text = String.Empty;
+			OutputTextBox.Text = String.Empty;
+		}
+
+		private void ItemSeparationComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
+			if (CustomSeparationStackPanel != null) {
+				if (ItemSeparationComboBox.SelectedIndex == 3) {
+					CustomSeparationStackPanel.Visibility = Visibility.Visible;
+
+				}
+				else {
+					CustomSeparationStackPanel.Visibility = Visibility.Collapsed;
+				}
+			}
+		}
+
+		private void CopyButton_Click(object sender, RoutedEventArgs e) {
+			Clipboard.SetText(OutputTextBox.Text);
+		}
+
+		private void PasteButton_Click(object sender, RoutedEventArgs e) {
+			InputTextBox.Text = Clipboard.GetText();
 		}
 	}
 }

@@ -3,12 +3,98 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:LDT"
+        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/" 
+        xmlns:resx="clr-namespace:LDT.Properties"
         mc:Ignorable="d"
-        Title="List Decluttering Tool" Height="616.5" Width="1027"
+        Title="List Decluttering Tool" Height="650" Width="1000"
         ResizeMode="CanResize"
-        MinHeight="600" MinWidth="1024">
+        MinHeight="650" MinWidth="1000">
+
+    <Window.Resources>
+        <Style x:Key="CopyIcon" TargetType="ContentControl">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ContentControl">
+                        <Viewbox Width="16" Height="16" AutomationProperties.AccessKey="CopyIcon">
+                            <Rectangle Width="16" Height="16">
+                                <Rectangle.Fill>
+                                    <DrawingBrush>
+                                        <DrawingBrush.Drawing>
+                                            <DrawingGroup>
+                                                <GeometryDrawing Brush="#00FFFFFF" Geometry="F1M16,16L0,16 0,0 16,0z" />
+                                                <GeometryDrawing Brush="#FFF6F6F6" Geometry="F1M0.9999,-0.000199999999999534L0.9999,13.0008 5.0009,13.0008 5.0009,15.9998 15.9999,15.9998 15.9999,7.3788 11.6209,3.0008 10.6049,3.0008 7.6179,-0.000199999999999534z" />
+                                                <GeometryDrawing Brush="#FF424242" Geometry="F1M14,14L7,14 7,5 10,5 10,9 14,9z M6,11L3,11 3,2 6.798,2 8.81,4 6,4z M11,5.207L13.793,8 11,8z M11.207,4L10.19,4 7.202,1 2,1 2,12 6,12 6,15 15,15 15,7.793z" />
+                                                <GeometryDrawing Brush="#FFF0EFF1" Geometry="F1M14,14L7,14 7,5 10,5 10,9 14,9z M6,11L3,11 3,2 6.798,2 8.81,4 6,4z M11,5.207L13.793,8 11,8z" />
+                                            </DrawingGroup>
+                                        </DrawingBrush.Drawing>
+                                    </DrawingBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                        </Viewbox>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="GreenText">
+            <Setter Property="Control.Foreground" Value="#FF057E00"/>
+        </Style>
+
+        <Style x:Key="GreenBorder">
+            <Setter Property="Control.BorderBrush" Value="#FF089E00"/>
+            <Setter Property="Control.BorderThickness" Value="1.5"/>
+            <Setter Property="Control.FontSize" Value="15"/>
+            <Setter Property="Control.Padding" Value="5"/>
+        </Style>
+
+        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Border" CornerRadius="10" BorderThickness="0"  Padding="2">
+                            <Border.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF0C9705" Offset="0"/>
+                                    <GradientStop Color="#FF056E00" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="Border" Value="#FF2F9729"/>
+
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="Border" Value="#FF23721E"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="GridStyle" TargetType="Grid">
+            <Style.Resources>
+                <Style TargetType="Label" BasedOn="{StaticResource GreenText}"/>
+                <Style TargetType="ComboBox" BasedOn="{StaticResource GreenText}"/>
+                <Style TargetType="CheckBox" BasedOn="{StaticResource GreenText}"/>
+                <Style TargetType="TextBox" BasedOn="{StaticResource GreenBorder}"/>
+                <Style TargetType="Button" BasedOn="{StaticResource RoundedButtonStyle}"/>
+            </Style.Resources>
+        </Style>
+
+    </Window.Resources>
+
     <Grid>
+
+        <Grid.Effect>
+            <DropShadowEffect ShadowDepth="1" Opacity="0.2" BlurRadius="1" Color="#FF033A00"/>
+        </Grid.Effect>
         <Grid.RowDefinitions>
             <RowDefinition/>
         </Grid.RowDefinitions>
@@ -17,33 +103,25 @@
             <ColumnDefinition Width="360*"/>
             <ColumnDefinition Width="360*"/>
         </Grid.ColumnDefinitions>
-        <TextBox 
-            x:Name="InputTextBox" 
-            AcceptsReturn="true" 
-            AcceptsTab="true"
-            FontSize="14"
-            VerticalScrollBarVisibility="Auto" 
-            HorizontalScrollBarVisibility="Auto"
-            Margin="5,45,10,15" TextWrapping="Wrap" Text="" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1" TextChanged="InputTextBox_TextChanged"
+        <Grid.Style>
+            <Style TargetType="{x:Type Grid}" BasedOn="{StaticResource GridStyle}"/>
+        </Grid.Style>
+
+        <TextBox x:Name="InputTextBox" AcceptsReturn="true" AcceptsTab="true" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="5,45,10,15" TextWrapping="Wrap" Text="" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1" TextChanged="InputTextBox_TextChanged" SelectionBrush="#FF067800"
             />
-        <TextBox 
-            x:Name="OutputTextBox" 
-            AcceptsReturn="true" 
-            AcceptsTab="true"
-            IsReadOnly="true"
-            FontSize="14"
-            VerticalScrollBarVisibility="Auto" 
-            HorizontalScrollBarVisibility="Auto"
-            HorizontalAlignment="Stretch" 
-            Margin="5,45,15,15" 
-            TextWrapping="Wrap" 
-            Text="" 
-            VerticalAlignment="Stretch" Grid.Column="2" />
+        <TextBox x:Name="OutputTextBox" AcceptsReturn="true" 
+            AcceptsTab="true" IsReadOnly="true" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" Margin="5,45,15,15" TextWrapping="Wrap" Text="" VerticalAlignment="Stretch" Grid.Column="2" />
 
         <Label Content="Input Text" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="30" Width="115" Grid.Column="1"/>
         <Label Content="Output Text" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="30" Width="117" Grid.Column="2"/>
+        <Button x:Name="ClearButton" Content="Clear" Grid.Column="1" Margin="0,8,79,0" Click="ClearButton_Click" Height="29" VerticalAlignment="Top" HorizontalAlignment="Right" Width="60" FontSize="13"/>
+        <Button x:Name="PasteButton" Content="Paste" Grid.Column="1" Margin="0,8,10,0" Click="PasteButton_Click" Height="29" VerticalAlignment="Top" HorizontalAlignment="Right" Width="60" FontSize="13"/>
+
 
         <Grid HorizontalAlignment="Stretch" Height="145" Margin="15,0,10,15" VerticalAlignment="Bottom">
+            <Grid.Effect>
+                <DropShadowEffect Opacity="0.35" ShadowDepth="3" BlurRadius="4"/>
+            </Grid.Effect>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -53,54 +131,70 @@
                 <RowDefinition Height="7*"/>
                 <RowDefinition Height="5*"/>
             </Grid.RowDefinitions>
-            <Button 
+            <Button
             x:Name="ConvertButton"
-            Content="Do it!"
+            Content="Declutter!"
             FontSize="20"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch" Click="Declutter" Margin="0,0,0,5"
-            RenderTransformOrigin="0.269,0.54" Grid.ColumnSpan="2"/>
+            RenderTransformOrigin="0.269,0.54" Grid.ColumnSpan="2" BorderBrush="#FF004B15">
+            </Button>
             <Button x:Name="OpenTextFile" Content="Open Text file" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Click="OpenTextFile_Click" FontSize="14" Grid.Row="1" Margin="0,5,5,0"/>
             <Button x:Name="SaveTextFile" Content="Save as Text file" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="SaveTextFile_Click" FontSize="14" Grid.Row="1" Grid.Column="1" Margin="5,5,0,0"/>
         </Grid>
-        <Grid Name="Options" HorizontalAlignment="Stretch" Margin="30,10,30,182" VerticalAlignment="Stretch" >
-            <Image Source="Icon.png" Stretch="Uniform" VerticalAlignment="Top" Height="168"/>
+        <StackPanel Name="Options" HorizontalAlignment="Stretch" Margin="30,10,30,182" VerticalAlignment="Stretch">
+            <Image Source="pack://application:,,,/Design/Icon.png" Stretch="Uniform" VerticalAlignment="Top" Height="168"/>
+            <TextBox HorizontalAlignment="Right" Height="15" Margin="0,1,0,0" TextWrapping="Wrap" Text="Ver 1.1" VerticalAlignment="Top" Width="39" FontSize="9" Focusable="False" AllowDrop="False" IsHitTestVisible="False" BorderThickness="0" TextAlignment="Right" Background="Transparent" FontWeight="Bold" Foreground="#FF5B5B5B" Padding="0"/>
             <Label 
             Content="Separate items between:"
             FontSize="16"
             FontWeight="SemiBold"
-            HorizontalAlignment="Stretch" VerticalAlignment="Top" RenderTransformOrigin="-0.395,0.096" Margin="0,179,0,0"/>
+            HorizontalAlignment="Stretch" VerticalAlignment="Top" RenderTransformOrigin="-0.395,0.096" Margin="0,1,0,0"/>
             <ComboBox 
-            x:Name="ObjSeparation"
+            x:Name="ItemSeparationComboBox"
             SelectedIndex="0"
             FontSize="16"
-            HorizontalAlignment="Stretch"  VerticalAlignment="Top" Margin="0,215,0,0">
-                <ComboBoxItem Content="Spaces" />
-                <ComboBoxItem Content="Tabs"/>
-                <ComboBoxItem Content="Dots"/>
+            HorizontalAlignment="Stretch"  VerticalAlignment="Top" Margin="0,1,0,0" SelectionChanged="ItemSeparationComboBox_SelectionChanged">
+                <ComboBoxItem Content="Spaces ' '" />
+                <ComboBoxItem Content="Tabs '\t'"/>
+                <ComboBoxItem Content="Dots '.'"/>
+                <ComboBoxItem Content="Custom (Type yourself)"/>
             </ComboBox>
+            <StackPanel x:Name="CustomSeparationStackPanel" Visibility="Collapsed" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+
+                <Label x:Name="CustomSeparationLabel" Content="Custom separator:" Margin="10,1,0,0" FontSize="14" HorizontalAlignment="Stretch"></Label>
+                <TextBox x:Name="CustomSeparationTextBox" AcceptsReturn="true" AcceptsTab="true"  HorizontalAlignment="Left" Height="28" Margin="10,-2,0,0" TextWrapping="Wrap" Text="->" FontSize="16" BorderThickness="1" Padding="1" VerticalAlignment="Top" Width="209"/>
+            </StackPanel>
+
             <Label 
             Content="Remove all occurrences of:"
             FontSize="16"
             FontWeight="SemiBold"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Top"
-            RenderTransformOrigin="-0.395,0.096" Margin="0,254,0,0"/>
+            RenderTransformOrigin="-0.395,0.096" Margin="0,1,0,0"/>
             <TextBox 
             x:Name="StringForRemoval" 
             FontSize="16"
             HorizontalAlignment="Stretch"
             TextWrapping="Wrap"
-            VerticalAlignment="Top" Height="28" Margin="0,290,0,0"/>
+            VerticalAlignment="Top" Padding="1" Height="28" Margin="0,1,0,0" BorderThickness="1"/>
             <CheckBox 
             x:Name="RemoveNumbers"
             FontSize="16"
             Content="Remove numeric items"
             IsChecked="True"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Top" Margin="0,328,0,0"/>
-            <TextBox HorizontalAlignment="Right" Height="15" Margin="0,164,0,0" TextWrapping="Wrap" Text="Ver 1.0.1" VerticalAlignment="Top" Width="39" FontSize="9" Focusable="False" AllowDrop="False" IsHitTestVisible="False" BorderThickness="0" TextAlignment="Right" Background="Transparent"/>
-        </Grid>
+            VerticalAlignment="Top" Margin="0,3,0,0"/>
 
+        </StackPanel>
+        <Button x:Name="CopyButton" Click="CopyButton_Click" Grid.Column="2" Margin="0,8,15,0" Height="29" VerticalAlignment="Top" HorizontalAlignment="Right" FontSize="13">
+            <Border Padding="10,0">
+                <DockPanel>
+                    <TextBlock>Copy</TextBlock>
+                    <!--<Image Source="{svgc:SvgImage /Design/CopyIcon.svg}" Height="16" Width="16" />-->
+                </DockPanel>
+            </Border>
+        </Button>
     </Grid>
 </Window>

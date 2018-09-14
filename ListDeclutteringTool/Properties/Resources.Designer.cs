@@ -22,7 +22,7 @@ namespace LDT.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace LDT.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("LDT.Properties.Resources", typeof(Resources).Assembly);
@@ -51,12 +51,57 @@ namespace LDT.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to people	372		(noun)
+        ///history	187		(noun)
+        ///way	185		(noun)
+        ///art	183		(noun)
+        ///world	169		(noun)
+        ///information	168		(noun)
+        ///map	167		(noun)
+        ///two	164		(noun)
+        ///family	159		(noun)
+        ///government	143		(noun)
+        ///health	122		(noun)
+        ///system	111		(noun)
+        ///computer	109		(noun)
+        ///meat	99		(noun)
+        ///year	96		(noun)
+        ///thanks	84		(noun)
+        ///music	80		(noun)
+        ///person	80		(noun)
+        ///reading	77		(noun)
+        ///method	76		(noun)
+        ///data	74		(noun)
+        ///food	73		(noun)
+        ///understanding	73		(noun)
+        ///theory	71		(noun)
+        ///law	70		(noun)
+        ///bird	68		(noun)
+        ///literature	6 [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string Example {
+            get {
+                return ResourceManager.GetString("Example", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Icon {
+            get {
+                object obj = ResourceManager.GetObject("Icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }
